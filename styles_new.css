@@ -513,4 +513,28 @@ footer p{
     }
   }
  
-  
+/* --- SVG ANIMATO NELL'HERO --- */
+.hero-svg{
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.hero-svg img{
+  width: 120%;
+  height: 120%;
+  object-fit: cover;
+  opacity: 0.45;
+  animation: floatSlow 18s ease-in-out infinite alternate;
+}
+
+/* movimento lentissimo e romantico */
+@keyframes floatSlow{
+  from{
+    transform: translate(-4%, -3%) scale(1.02);
+  }
+  to{
+    transform: translate(0%, 0%) scale(1.06);
+  }
+}
