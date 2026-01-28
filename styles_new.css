@@ -32,7 +32,7 @@ body::before{
     inset:0;
     background:
       url("immagini/floral-pattern.svg") repeat;
-    opacity:.10;              /* leggerissimo */
+    opacity:1;              /* leggerissimo */
     pointer-events:none;
     z-index:-2;
 }
@@ -42,7 +42,12 @@ body::after{
   content:"";
   position:fixed;
   inset:0;
-  background: radial-gradient(900px 420px at 50% 0%, rgba(255,255,255,.65), rgba(250,247,242,.92));
+  background:
+    radial-gradient(
+      900px 420px at 50% 0%,
+      rgba(255,255,255,.35),
+      rgba(250,247,242,.65)
+    );
   pointer-events:none;
   z-index:-1;
 }
