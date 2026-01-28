@@ -490,6 +490,7 @@ footer p{
   /* testo sotto, NON dentro alcuna cornice */
   .rsvp-note{
     margin: 0;
+    text-align: left;
     font-family: "Playfair Display", serif;
     color: var(--olive);
     font-size: 16px;
