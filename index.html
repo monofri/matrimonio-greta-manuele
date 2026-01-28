@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matrimonio di Greta & Manuele</title>
+  <link rel="stylesheet" href="styles_new.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="logo">Greta & Manuele</div>
+
+    <input type="checkbox" id="menu-toggle" />
+    <label for="menu-toggle" class="hamburger" aria-label="Apri/chiudi menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+
+    <ul class="menu">
+      <li><a href="#cerimonia">Cerimonia</a></li>
+      <li><a href="#rinfresco">Rinfresco</a></li>
+      <li><a href="#programma">Programma</a></li>
+      <li><a href="#rsvp">RSVP</a></li>
+      <li><a href="#lista-nozze">Lista Nozze</a></li>
+      <li><a href="#noi">Noi</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <h1>Greta & Manuele</h1>
+    <p>Ci sposiamo! 🎉</p>
+    <div class="countdown" aria-label="Conto alla rovescia al matrimonio">
+        <div class="cd-box">
+          <span id="cd-days" class="cd-num">—</span>
+          <span class="cd-label">Giorni</span>
+        </div>
+        <div class="cd-box">
+          <span id="cd-hours" class="cd-num">—</span>
+          <span class="cd-label">Ore</span>
+        </div>
+        <div class="cd-box">
+          <span id="cd-mins" class="cd-num">—</span>
+          <span class="cd-label">Min</span>
+        </div>
+        <div class="cd-box">
+          <span id="cd-secs" class="cd-num">—</span>
+          <span class="cd-label">Sec</span>
+        </div>
+      </div>
+      
+      <p id="cd-note" class="countdown-note" aria-live="polite"></p>
+    <div class="calendar-actions">
+    <a
+        href="matrimonio-greta-manuele.ics"
+        class="calendar-btn"
+        download
+    >
+        📅 Aggiungi al calendario
+    </a>
+    </div>
+    <div class="hero-actions">
+        <a class="btn btn-primary" href="#cerimonia">
+          Scopri i dettagli
+        </a>
+        <a class="btn btn-ghost" href="#lista-nozze">
+          Info regalo
+        </a>
+    </div>
+  </header>
+
+  <main>
+    <section id="cerimonia" class="card">
+      <h2>📍 La Cerimonia</h2>
+      <p>Venerdì 22 Maggio 2026, ore 15:00</p>
+      <p>
+        <a href="https://www.santabbondio.org" target="_blank" rel="noopener noreferrer">
+          Basilica di Sant'Abbondio, Como
+        </a>
+      </p>
+
+      <div class="foto-cerchio">
+        <img src="immagini/Sant-Abbondio.jpg" alt="Chiesa di Sant'Abbondio a Como">
+      </div>
+
+      <p>
+        <a class="link-pill" href="https://maps.app.goo.gl/PYGkaMeYoX7CNRm59" target="_blank" rel="noopener noreferrer">
+          🗺️ Indicazioni Stradali
+        </a>
+      </p>
+    </section>
+
+    <section id="rinfresco" class="card">
+      <h2>🥂 Il Rinfresco</h2>
+      <p>
+        <a href="https://villeparravicini.com/parravicino/" target="_blank" rel="noopener noreferrer">
+          Villa Parravicino Sossnovsky, Erba
+        </a>
+      </p>
+      <p>Dalle ore 17:00 – Aperitivo, cena e festa</p>
+
+      <div class="foto-cerchio">
+        <img src="immagini/villa_parravicino.webp" alt="Villa Parravicino Sossnovsky a Erba">
+      </div>
+
+      <p>
+        <a class="link-pill" href="https://maps.app.goo.gl/BQvzQFeSGBHJQCwMA" target="_blank" rel="noopener noreferrer">
+          🗺️ Indicazioni Stradali
+        </a>
+      </p>
+    </section>
+
+    <section id="programma" class="card">
+        <h2>🕰️ Programma della giornata</h2>
+        <p class="muted">Indicazioni orientative — vi aspettiamo con calma e con gioia.</p>
+      
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-time">15:00</div>
+            <div class="tl-dot" aria-hidden="true"></div>
+            <div class="tl-content">
+              <h3>Cerimonia</h3>
+              <p>Basilica di Sant'Abbondio, Como</p>
+            </div>
+          </div>
+      
+          <div class="tl-item">
+            <div class="tl-time">16:15</div>
+            <div class="tl-dot" aria-hidden="true"></div>
+            <div class="tl-content">
+              <h3>Foto & saluti</h3>
+              <p>Un momento insieme fuori dalla chiesa.</p>
+            </div>
+          </div>
+      
+          <div class="tl-item">
+            <div class="tl-time">17:00</div>
+            <div class="tl-dot" aria-hidden="true"></div>
+            <div class="tl-content">
+              <h3>Arrivo in villa & aperitivo</h3>
+              <p>Villa Parravicino Sossnovsky, Erba</p>
+            </div>
+          </div>
+      
+          <div class="tl-item">
+            <div class="tl-time">19:00</div>
+            <div class="tl-dot" aria-hidden="true"></div>
+            <div class="tl-content">
+              <h3>Cena</h3>
+              <p>Brindisi, sorrisi e buona compagnia.</p>
+            </div>
+          </div>
+
+          <div class="tl-item">
+            <div class="tl-time">21:00</div>
+            <div class="tl-dot" aria-hidden="true"></div>
+            <div class="tl-content">
+                <h3>Taglio della torta</h3>
+                <p>Un momento dolce da condividere insieme.</p>
+            </div>
+          </div>
+      
+          <div class="tl-item">
+            <div class="tl-time">22:30</div>
+            <div class="tl-dot" aria-hidden="true"></div>
+            <div class="tl-content">
+              <h3>Festa</h3>
+              <p>Musica, balli e festeggiamenti.</p>
+            </div>
+          </div>
+        </div>
+    </section>
+
+    <section id="rsvp" class="card">
+        <h2>💌 RSVP</h2>
+      
+        <p class="muted">
+          Per aiutarci con l’organizzazione, vi chiediamo gentilmente di confermare la presenza entro il
+          <strong>30 aprile 2026</strong>.
+        </p>
+      
+        <div class="rsvp-box rsvp-simple">
+            <a
+                class="btn btn-primary rsvp-btn"
+                href="https://forms.gle/6T2zbzcwzksTPmFR7"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Conferma
+            </a>
+          
+      
+          <p class="rsvp-note">
+            Grazie di cuore, non vediamo l’ora di festeggiare con voi. 🤍
+          </p>
+        </div>
+    </section>
+      
+
+    <section id="lista-nozze" class="card">
+      <h2>🎁 Lista Nozze</h2>
+      <p>Non abbiamo una lista tradizionale: se volete aiutarci a realizzare i nostri progetti (viaggi, casa, ecc.) potete farlo con un bonifico.</p>
+      <p><strong>IBAN:</strong> IT00X000000000000000000000</p>
+      <p>Intestato a: Greta Maria Campisi & Manuele Onofri</p>
+    </section>
+
+    <section id="noi" class="card">
+      <h2>⚛ Noi Due ⚛</h2>
+      <p>Una piccola foto di noi in attesa di festeggiare insieme!</p>
+      <div class="foto-cerchio">
+        <img src="immagini/greta_manuele.jpg" alt="Greta e Manuele">
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Con amore, Greta & Manuele ⚛</p>
+  </footer>
+
+  <script>
+    // Chiudi menu al click su un link
+    document.querySelectorAll('.menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.getElementById('menu-toggle').checked = false;
+      });
+    });
+  </script>
+
+  <script>
+    // --- Countdown: 22 Maggio 2026, 15:00 (ora di Roma) ---
+    const targetDate = new Date("2026-05-22T15:00:00+02:00"); // CEST
+  
+    const elDays = document.getElementById("cd-days");
+    const elHours = document.getElementById("cd-hours");
+    const elMins = document.getElementById("cd-mins");
+    const elSecs = document.getElementById("cd-secs");
+    const elNote = document.getElementById("cd-note");
+  
+    const pad2 = (n) => String(n).padStart(2, "0");
+  
+    function tick() {
+      const now = new Date();
+      let diff = targetDate - now;
+  
+      if (diff <= 0) {
+        elDays.textContent = "0";
+        elHours.textContent = "00";
+        elMins.textContent = "00";
+        elSecs.textContent = "00";
+        elNote.textContent = "È il grande giorno! 🎉";
+        clearInterval(timer);
+        return;
+      }
+  
+      const totalSeconds = Math.floor(diff / 1000);
+      const days = Math.floor(totalSeconds / (3600 * 24));
+      const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+      const mins = Math.floor((totalSeconds % 3600) / 60);
+      const secs = totalSeconds % 60;
+  
+      elDays.textContent = String(days);
+      elHours.textContent = pad2(hours);
+      elMins.textContent = pad2(mins);
+      elSecs.textContent = pad2(secs);
+      elNote.textContent = "";
+    }
+  
+    tick();
+    const timer = setInterval(tick, 1000);
+  </script>
+</body>
+</html>

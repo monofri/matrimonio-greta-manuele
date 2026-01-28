@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Greta & Manuele//Matrimonio//IT
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+
+BEGIN:VEVENT
+UID:matrimonio-greta-manuele-20260522@wedding
+DTSTAMP:20260101T120000Z
+DTSTART:20260522T130000Z
+DTEND:20260522T220000Z
+SUMMARY:Matrimonio di Greta & Manuele
+DESCRIPTION:Cerimonia presso la Chiesa di Sant'Abbondio (Como) e rinfresco a Villa Parravicino Sossnovsky (Erba).
+LOCATION:Como / Erba, Italia
+END:VEVENT
+
+END:VCALENDAR

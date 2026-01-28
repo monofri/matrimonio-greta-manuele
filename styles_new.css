@@ -1,0 +1,510 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;600&display=swap');
+
+:root{
+    --ink:#2a2a2a;
+    --olive:#6b705c;     /* verde salvia principale */
+    --sage:#a5a58d;      /* verde salvia chiaro */
+    --ivory:#faf7f2;     /* avorio */
+  
+    --card: rgba(255,255,255,.85);
+    --border: rgba(107,112,92,.18);
+    --shadow: 0 18px 40px rgba(0,0,0,.12);
+    --shadow-soft: 0 10px 26px rgba(0,0,0,.10);
+  }
+
+/* Reset */
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+
+body{
+  margin:0;
+  color: var(--ink);
+  background: var(--ivory);
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  min-height:100vh;
+  position:relative;
+}
+
+/* 🌸 Sfondo floreale leggero (metti il file in /immagini/floral-pattern.svg) */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+      url("immagini/floral-pattern.svg") repeat;
+    opacity:.10;              /* leggerissimo */
+    pointer-events:none;
+    z-index:-2;
+}
+
+/* Overlay crema per leggibilità */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  background: radial-gradient(900px 420px at 50% 0%, rgba(255,255,255,.65), rgba(250,247,242,.92));
+  pointer-events:none;
+  z-index:-1;
+}
+
+/* NAVBAR */
+.navbar{
+  position: sticky;
+  top:0;
+  z-index:999;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: 14px 18px;
+  background: rgba(107,112,92,.78);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,.18);
+}
+
+.logo{
+  font-family:"Playfair Display", serif;
+  font-weight: 700;
+  letter-spacing:.3px;
+  color:#fff;
+  font-size: 20px;
+}
+
+.menu{
+  list-style:none;
+  display:flex;
+  gap: 18px;
+  margin:0;
+  padding:0;
+}
+
+.menu a{
+  color:#fff;
+  text-decoration:none;
+  font-weight:600;
+  opacity:.95;
+}
+.menu a:hover{
+  opacity:1;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+
+#menu-toggle{ display:none; }
+
+.hamburger{
+  display:none;
+  width: 34px;
+  height: 28px;
+  cursor:pointer;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.hamburger span{
+  height:3px;
+  width:100%;
+  background:#fff;
+  border-radius: 10px;
+  transition:.35s;
+}
+
+/* HERO (header romantico) */
+.hero{
+  text-align:center;
+  padding: 64px 18px 34px;
+  color:#fff;
+  position:relative;
+  overflow:hidden;
+}
+
+/* velo romantico sopra */
+.hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(900px 360px at 50% 10%, rgba(255,255,255,.25), transparent 60%),
+      linear-gradient(180deg, rgba(107,112,92,.88), rgba(107,112,92,.60));
+    backdrop-filter: blur(6px);
+    z-index:0;
+}
+.hero > *{ position:relative; z-index:1; }
+
+.hero h1{
+  margin:0;
+  font-family:"Playfair Display", serif;
+  font-weight: 700;
+  font-size: clamp(42px, 6vw, 64px);
+  text-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+
+.hero p{
+  margin: 12px 0 0;
+  font-size: 18px;
+  opacity:.95;
+}
+
+/* Countdown (come ti ho già dato) */
+.countdown{
+  display:flex;
+  justify-content:center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.cd-box{
+  min-width: 92px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.16);
+  border: 1px solid rgba(255,255,255,.22);
+  backdrop-filter: blur(10px);
+}
+
+.cd-num{
+  display:block;
+  font-family:"Playfair Display", serif;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.1;
+  color:#fff;
+}
+
+.cd-label{
+  display:block;
+  margin-top: 4px;
+  font-size: 12px;
+  letter-spacing:.6px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.9);
+}
+
+.countdown-note{
+  margin: 10px 0 0;
+  color: rgba(255,255,255,.95);
+}
+
+/* Bottone calendario */
+.calendar-actions{ margin-top: 14px; text-align:center; }
+.calendar-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 12px 16px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.92);
+  color: var(--olive);
+  font-weight: 800;
+  text-decoration:none;
+  border: 1px solid rgba(255,255,255,.35);
+  box-shadow: 0 10px 22px rgba(0,0,0,.18);
+  transition: transform .18s ease, opacity .18s ease;
+}
+.calendar-btn:hover{ transform: translateY(-2px); opacity:.98; }
+
+/* SEZIONI "invito" */
+main{
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 14px 18px 60px;
+}
+
+section{
+  margin: 16px auto;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 22px 18px;
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(10px);
+}
+
+section h2{
+  font-family:"Playfair Display", serif;
+  font-size: 26px;
+  margin: 0 0 10px;
+  color: var(--olive);
+}
+
+section p{
+  margin: 10px 0;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+section a{
+  color: var(--olive);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+.link-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(107,112,92,.10);
+    border: 1px solid rgba(107,112,92,.22);
+    text-decoration:none;
+    color: var(--olive);
+    font-weight: 700;
+  }
+  .link-pill:hover{
+    background: rgba(107,112,92,.16);
+  }
+
+/* Foto cerchio */
+.foto-cerchio{
+  display:flex;
+  justify-content:center;
+  margin: 18px 0;
+}
+.foto-cerchio img{
+  width: min(320px, 78vw);
+  height: min(320px, 78vw);
+  object-fit: cover;
+  border-radius: 999px;
+  border: 6px solid rgba(165,165,141,.75);
+  box-shadow: var(--shadow);
+  transition: transform .25s ease;
+}
+.foto-cerchio img:hover{ transform: scale(1.03); }
+
+/* Footer */
+footer{
+  text-align:center;
+  padding: 28px 14px 40px;
+}
+footer p{
+  margin:0;
+  color:#fff;
+  background: rgba(107,112,92,.78);
+  display:inline-block;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.18);
+  backdrop-filter: blur(10px);
+}
+
+/* Mobile menu */
+@media (max-width: 768px){
+  .hamburger{ display:flex; }
+
+  .menu{
+    position:absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display:none;
+    flex-direction: column;
+    gap: 0;
+    background: rgba(107,112,92,.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,.16);
+  }
+
+  #menu-toggle:checked + .hamburger + .menu{ display:flex; }
+
+  .menu li{ border-top: 1px solid rgba(255,255,255,.14); }
+  .menu a{ display:block; padding: 14px 18px; }
+
+  #menu-toggle:checked + .hamburger span:nth-child(1){
+    transform: rotate(45deg) translateY(9px);
+  }
+  #menu-toggle:checked + .hamburger span:nth-child(2){
+    opacity: 0;
+  }
+  #menu-toggle:checked + .hamburger span:nth-child(3){
+    transform: rotate(-45deg) translateY(-9px);
+  }
+
+  section{ padding: 18px 16px; }
+}
+
+/* --- HERO ACTION BUTTONS --- */
+.hero-actions{
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  
+  /* Base button */
+  .btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 18px;
+    border-radius: 999px;
+    font-weight: 700;
+    text-decoration: none !important;
+    border: 1px solid rgba(255,255,255,.28);
+    transition: transform .18s ease, opacity .18s ease, background .18s ease;
+  }
+  
+  .btn:hover{
+    transform: translateY(-2px);
+    opacity: .98;
+  }
+  
+  /* Primary = avorio */
+  .btn-primary{
+    background: rgba(255,255,255,.92);
+    color: var(--olive) !important;
+  }
+  
+  /* Ghost = trasparente su hero */
+  .btn-ghost{
+    background: rgba(255,255,255,.14);
+    color: #ffffff !important;
+    border: 1px solid rgba(255,255,255,.34);
+  }
+  
+  /* --- TIMELINE PROGRAMMA --- */
+.muted{
+    opacity: .85;
+    margin-top: -6px;
+  }
+  
+  .timeline{
+    position: relative;
+    margin-top: 16px;
+    display: grid;
+    gap: 14px;
+  }
+  
+  /* linea verticale */
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left: 92px;              /* allineata ai pallini */
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: rgba(107,112,92,.22);
+    border-radius: 2px;
+  }
+  
+  .tl-item{
+    display: grid;
+    grid-template-columns: 80px 24px 1fr;
+    align-items: start;
+    column-gap: 12px;
+  }
+  
+  .tl-time{
+    font-family: "Playfair Display", serif;
+    font-weight: 700;
+    color: var(--olive);
+    text-align: right;
+    padding-top: 2px;
+    letter-spacing: .3px;
+  }
+  
+  .tl-dot{
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: var(--ivory);
+    border: 2px solid rgba(107,112,92,.55);
+    margin-top: 4px;
+    box-shadow: 0 6px 16px rgba(0,0,0,.10);
+  }
+  
+  .tl-content{
+    padding: 12px 12px;
+    border-radius: 16px;
+    background: rgba(255,255,255,.60);
+    border: 1px solid rgba(107,112,92,.16);
+  }
+  
+  .tl-content h3{
+    margin: 0;
+    font-family: "Playfair Display", serif;
+    font-size: 18px;
+    color: var(--olive);
+  }
+  
+  .tl-content p{
+    margin: 6px 0 0;
+    opacity: .92;
+  }
+  
+  /* Mobile: più compatta */
+  @media (max-width: 520px){
+    .timeline::before{ left: 74px; }
+  
+    .tl-item{
+      grid-template-columns: 62px 22px 1fr;
+    }
+  
+    .tl-time{ font-size: 14px; }
+    .tl-content{ padding: 10px 10px; }
+  }
+
+/* --- RSVP PULITO: BOTTONE SEPARATO --- */
+.rsvp-simple{
+    margin-top: 18px;
+    text-align: center;
+  }
+  
+ /* --- BOTTONE RSVP: VERO BOTTONE --- */
+ .btn-primary{
+    background: #ffffff;                 /* pieno */
+    color: var(--olive) !important;
+    border: 2px solid var(--sage);
+    border-radius: 999px;
+  
+    padding: 12px 26px;
+    font-weight: 700;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+  
+    box-shadow:
+      0 6px 16px rgba(0,0,0,.18);        /* ombra = bottone */
+  }
+  
+  /* Hover: si solleva */
+  .btn-primary:hover{
+    transform: translateY(-2px);
+    box-shadow:
+      0 10px 22px rgba(0,0,0,.22);
+  }
+  
+  /* Click: effetto pressione */
+  .btn-primary:active{
+    transform: translateY(0);
+    box-shadow:
+      0 4px 10px rgba(0,0,0,.20);
+  }
+
+  .btn{
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none !important;
+  }
+  
+  /* testo sotto, NON dentro alcuna cornice */
+  .rsvp-note{
+    margin: 0;
+    font-family: "Playfair Display", serif;
+    color: var(--olive);
+    font-size: 16px;
+  }
+
+  /* Spazio tra bottone RSVP e ringraziamento */
+.rsvp-simple .rsvp-btn {
+    margin-bottom: 18px; /* valore consigliato: 20–32px; cambia se vuoi più/meno respiro */
+  }
+  
+  /* opzione responsive: meno spazio su schermi molto piccoli */
+  @media (max-width: 420px) {
+    .rsvp-simple .rsvp-btn {
+      margin-bottom: 18px;
+    }
+  }
+ 
+  
