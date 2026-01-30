@@ -532,16 +532,16 @@ footer p{
   height: 100%;
   object-fit: cover;
   /* centra e rende più stabile il movimento */
-  position: absolute;
+  /*position: absolute;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%) scale(1.08);
+  top: 50%;*/
+  /*transform: translate(-50%, -50%) scale(1.08);*/
 
-  opacity: 0.45;
+  opacity: 0.7;
   will-change: transform;
 
   /* più veloce */
-  animation: floatFaster 14s ease-in-out infinite alternate;
+  /*animation: floatFaster 14s ease-in-out infinite alternate;*/
 }
 
 @keyframes floatFaster{
