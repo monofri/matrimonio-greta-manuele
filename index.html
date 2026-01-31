@@ -200,7 +200,7 @@
 
           <p class="muted" id="limitNote"></p>
 
-          <textarea id="notes" placeholder="Note (allergie, intolleranze, info utili)…" rows="3"></textarea>
+          <textarea id="notes" placeholder="Messaggio di auguri…" rows="3"></textarea>
           <button id="btnSubmit">Conferma</button>
           <p id="err2" class="err"></p>
           <p id="ok" class="ok"></p>
@@ -259,7 +259,7 @@
           currentCode = code;
 
           $("famLabel").textContent = data.family_label ? `Invito: ${data.family_label}` : "Invito trovato";
-          $("limitNote").textContent = `Puoi confermare fino a ${data.max_seats} persone.`;
+          $("limitNote").textContent = `Vuoi lasciarci un messaggio? Puoi scriverlo qui sotto.`;
 
           const list = $("list");
           list.innerHTML = "";
