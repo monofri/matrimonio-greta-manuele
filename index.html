@@ -185,21 +185,117 @@
           <strong>22 aprile 2026</strong>.
         </p>
       
-        <div class="rsvp-box rsvp-simple">
-            <a
-                class="btn btn-primary rsvp-btn"
-                href="https://forms.gle/6T2zbzcwzksTPmFR7"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                Conferma
-            </a>
-          
-      
-          <p class="rsvp-note">
-            Grazie di cuore, non vediamo l’ora di festeggiare con voi. 🤍
-          </p>
+        <div class="rsvp-card">
+
+        <div id="step1">
+          <p>Inserisci il tuo codice invito:</p>
+          <input id="code" placeholder="Es. 4K8Z2" autocomplete="one-time-code" />
+          <button id="btnLookup">Continua</button>
+          <p id="err1" class="err"></p>
         </div>
+
+        <div id="step2" style="display:none;">
+          <p id="famLabel" class="muted"></p>
+          <div id="list"></div>
+
+          <p class="muted" id="limitNote"></p>
+
+          <textarea id="notes" placeholder="Note (allergie, intolleranze, info utili)…" rows="3"></textarea>
+          <button id="btnSubmit">Conferma</button>
+          <p id="err2" class="err"></p>
+          <p id="ok" class="ok"></p>
+        </div>
+      </div>
+
+      <script>
+        const WEBAPP = "YOUR_WEBAPP_URL";
+
+        let current = null;
+        let currentCode = null;
+
+        const $ = (id) => document.getElementById(id);
+
+        function setError(el, msg){ el.textContent = msg || ""; }
+        function setOk(msg){ $("ok").textContent = msg || ""; }
+
+        async function api(payload){
+          const res = await fetch(WEBAPP, {
+            method: "POST",
+            headers: { "Content-Type":"text/plain;charset=utf-8" },
+            body: JSON.stringify(payload)
+          });
+          return res.json();
+        }
+
+        $("btnLookup").addEventListener("click", async () => {
+          setError($("err1"), "");
+          setOk("");
+          const code = $("code").value.trim().toUpperCase();
+          if(!code) return setError($("err1"), "Inserisci un codice.");
+
+          const data = await api({ action:"lookup", code });
+          if(!data.ok) return setError($("err1"), data.error || "Codice non valido.");
+
+          current = data;
+          currentCode = code;
+
+          $("famLabel").textContent = data.family_label ? `Invito: ${data.family_label}` : "Invito trovato";
+          $("limitNote").textContent = `Puoi confermare fino a ${data.max_seats} persone.`;
+
+          const list = $("list");
+          list.innerHTML = "";
+
+          data.members.forEach(name => {
+            const id = "m_" + name.replace(/\W+/g, "_");
+            const row = document.createElement("label");
+            row.className = "chk";
+            row.innerHTML = `<input type="checkbox" id="${id}" data-name="${name}"> <span>${name}</span>`;
+            list.appendChild(row);
+          });
+
+          // blocco selezione oltre max
+          list.addEventListener("change", () => {
+            const checked = [...list.querySelectorAll("input[type=checkbox]:checked")];
+            if (checked.length > data.max_seats) {
+              // deseleziona l'ultimo cambiato
+              const last = event.target;
+              if(last && last.checked) last.checked = false;
+              setError($("err2"), `Puoi selezionare al massimo ${data.max_seats} persone.`);
+            } else {
+              setError($("err2"), "");
+            }
+          }, { once:true });
+
+          $("step1").style.display = "none";
+          $("step2").style.display = "block";
+        });
+
+        $("btnSubmit").addEventListener("click", async () => {
+          setError($("err2"), "");
+          setOk("");
+
+          const selected = [...$("list").querySelectorAll("input[type=checkbox]:checked")]
+            .map(x => x.getAttribute("data-name"));
+
+          const notes = $("notes").value;
+
+          const data = await api({ action:"submit", code: currentCode, selected, notes });
+          if(!data.ok) return setError($("err2"), data.error || "Errore, riprova.");
+
+          setOk("Grazie! Conferma ricevuta 🤍");
+        });
+      </script>
+
+      <style>
+        .rsvp-card{ padding:16px; border-radius:16px; }
+        .err{ color:#b00020; margin-top:10px; }
+        .ok{ margin-top:10px; font-weight:700; }
+        .chk{ display:flex; gap:10px; align-items:center; padding:8px 0; }
+        #code{ padding:10px 12px; border-radius:10px; border:1px solid rgba(0,0,0,.15); }
+        button{ padding:10px 14px; border-radius:999px; border:0; cursor:pointer; }
+        textarea{ width:100%; margin-top:12px; padding:10px 12px; border-radius:12px; border:1px solid rgba(0,0,0,.15); }
+      </style>
+
     </section>
       
 
