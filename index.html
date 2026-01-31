@@ -208,7 +208,7 @@
       </div>
 
       <script>
-        const WEBAPP = "https://script.google.com/macros/s/AKfycbz3KvocdiD4pOcyVoi-GSsQ8nv1mSpDP_cFO6r4PFsfDAola5oJ8cgP-JdHoM0kNrmOXA/exec";
+        const WEBAPP = "https://script.google.com/macros/s/AKfycbycgVxd5ltC46bd4NGdg7njsWvCxMLQCRsYbYu9KgoNMZH-qF9Wvm06vr42clLRK_D0Mg/exec";
 
         let current = null;
         let currentCode = null;
@@ -227,9 +227,28 @@
           return res.json();
         }
 
+        function escapeHtml(str){
+          return (str || "").replace(/[&<>"']/g, (m) => ({
+            "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
+          }[m]));
+        }
+
+        function countAttending(listEl){
+          const blocks = [...listEl.querySelectorAll(".person")];
+          let count = 0;
+          for (const b of blocks) {
+            const key = b.dataset.personKey;
+            const chosen = listEl.querySelector(`input[name="att_${key}"]:checked`)?.value || "NO";
+            if (chosen !== "NO") count++;
+          }
+          return count;
+        }
+
         $("btnLookup").addEventListener("click", async () => {
           setError($("err1"), "");
+          setError($("err2"), "");
           setOk("");
+
           const code = $("code").value.trim().toUpperCase();
           if(!code) return setError($("err1"), "Inserisci un codice.");
 
@@ -245,26 +264,57 @@
           const list = $("list");
           list.innerHTML = "";
 
-          data.members.forEach(name => {
-            const id = "m_" + name.replace(/\W+/g, "_");
-            const row = document.createElement("label");
-            row.className = "chk";
-            row.innerHTML = `<input type="checkbox" id="${id}" data-name="${name}"> <span>${name}</span>`;
-            list.appendChild(row);
+          data.members.forEach((name) => {
+            const safe = name.replace(/\W+/g, "_");
+            const block = document.createElement("div");
+            block.className = "person";
+            block.dataset.personName = name;
+            block.dataset.personKey = safe;
+
+            block.innerHTML = `
+              <div class="person-name">${escapeHtml(name)}</div>
+
+              <div class="choices" role="radiogroup" aria-label="Partecipazione di ${escapeHtml(name)}">
+                <label class="choice">
+                  <input type="radio" name="att_${safe}" value="ALL">
+                  <span>Partecipo a cerimonia + ricevimento</span>
+                </label>
+                <label class="choice">
+                  <input type="radio" name="att_${safe}" value="REC">
+                  <span>Partecipo solo al ricevimento</span>
+                </label>
+                <label class="choice">
+                  <input type="radio" name="att_${safe}" value="CER">
+                  <span>Partecipo solo alla cerimonia</span>
+                </label>
+                <label class="choice">
+                  <input type="radio" name="att_${safe}" value="NO" checked>
+                  <span>Purtroppo non ci sarò</span>
+                </label>
+              </div>
+
+              <textarea class="note" rows="2" placeholder="Note per ${escapeHtml(name)} (allergie, intolleranze, info utili)…"></textarea>
+            `;
+
+            list.appendChild(block);
           });
 
-          // blocco selezione oltre max
-          list.addEventListener("change", () => {
-            const checked = [...list.querySelectorAll("input[type=checkbox]:checked")];
-            if (checked.length > data.max_seats) {
-              // deseleziona l'ultimo cambiato
-              const last = event.target;
-              if(last && last.checked) last.checked = false;
-              setError($("err2"), `Puoi selezionare al massimo ${data.max_seats} persone.`);
+          // Validazione live max_seats
+          list.addEventListener("change", (event) => {
+            const c = countAttending(list);
+            if (c > data.max_seats) {
+              // Se superi il massimo, rimetti NO alla persona che ha appena cambiato
+              const person = event.target?.closest?.(".person");
+              if (person) {
+                const key = person.dataset.personKey;
+                const noRadio = list.querySelector(`input[name="att_${key}"][value="NO"]`);
+                if (noRadio) noRadio.checked = true;
+              }
+              setError($("err2"), `Puoi confermare al massimo ${data.max_seats} persone.`);
             } else {
               setError($("err2"), "");
             }
-          }, { once:true });
+          });
 
           $("step1").style.display = "none";
           $("step2").style.display = "block";
@@ -274,27 +324,98 @@
           setError($("err2"), "");
           setOk("");
 
-          const selected = [...$("list").querySelectorAll("input[type=checkbox]:checked")]
-            .map(x => x.getAttribute("data-name"));
+          const list = $("list");
+          const blocks = [...list.querySelectorAll(".person")];
 
-          const notes = $("notes").value;
+          const responses = blocks.map(b => {
+            const name = b.dataset.personName;
+            const key = b.dataset.personKey;
+            const attendance = list.querySelector(`input[name="att_${key}"]:checked`)?.value || "NO";
+            const note = b.querySelector("textarea.note")?.value || "";
+            return { name, attendance, note };
+          });
 
-          const data = await api({ action:"submit", code: currentCode, selected, notes });
+          const attending = responses.filter(r => r.attendance !== "NO").length;
+          if (attending > current.max_seats) {
+            return setError($("err2"), `Puoi confermare al massimo ${current.max_seats} persone (attualmente: ${attending}).`);
+          }
+
+          const notes = $("notes").value; // note generali (puoi anche eliminarle se non ti servono)
+
+          // ⚠️ IMPORTANTE: qui inviamo responses (non selected)
+          const data = await api({ action:"submit", code: currentCode, responses, notes });
           if(!data.ok) return setError($("err2"), data.error || "Errore, riprova.");
 
           setOk("Grazie! Conferma ricevuta 🤍");
         });
       </script>
 
+
       <style>
         .rsvp-card{ padding:16px; border-radius:16px; }
         .err{ color:#b00020; margin-top:10px; }
         .ok{ margin-top:10px; font-weight:700; }
-        .chk{ display:flex; gap:10px; align-items:center; padding:8px 0; }
-        #code{ padding:10px 12px; border-radius:10px; border:1px solid rgba(0,0,0,.15); }
-        button{ padding:10px 14px; border-radius:999px; border:0; cursor:pointer; }
-        textarea{ width:100%; margin-top:12px; padding:10px 12px; border-radius:12px; border:1px solid rgba(0,0,0,.15); }
+
+        #code{
+          padding:10px 12px;
+          border-radius:10px;
+          border:1px solid rgba(0,0,0,.15);
+          width: min(360px, 100%);
+        }
+
+        button{
+          padding:10px 14px;
+          border-radius:999px;
+          border:0;
+          cursor:pointer;
+        }
+
+        textarea{
+          width:100%;
+          margin-top:12px;
+          padding:10px 12px;
+          border-radius:12px;
+          border:1px solid rgba(0,0,0,.15);
+          font-family: Inter, system-ui, sans-serif;
+        }
+
+        /* Nuovo layout persona */
+        .person{
+          margin: 12px 0;
+          padding: 12px 12px;
+          border-radius: 16px;
+          border: 1px solid rgba(107,112,92,.16);
+          background: rgba(255,255,255,.55);
+        }
+
+        .person-name{
+          font-family: "Playfair Display", serif;
+          font-weight: 600;
+          color: var(--olive);
+          margin-bottom: 8px;
+        }
+
+        .choices{
+          display: grid;
+          gap: 8px;
+          margin-top: 6px;
+        }
+
+        .choice{
+          display:flex;
+          gap:10px;
+          align-items:flex-start;
+          padding: 6px 8px;
+          border-radius: 12px;
+        }
+
+        .choice input{ margin-top: 3px; }
+
+        .note{
+          margin-top: 10px;
+        }
       </style>
+
 
     </section>
       
