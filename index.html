@@ -135,7 +135,7 @@
             <div class="tl-dot" aria-hidden="true"></div>
             <div class="tl-content">
               <h3>Foto & saluti</h3>
-              <p>Un momento insieme fuori dalla chiesa.</p>
+              <p>Un momento insieme fuori dalla chiesa</p>
             </div>
           </div>
       
@@ -153,7 +153,7 @@
             <div class="tl-dot" aria-hidden="true"></div>
             <div class="tl-content">
               <h3>Cena</h3>
-              <p>Brindisi, sorrisi e buona compagnia.</p>
+              <p>Brindisi, sorrisi e buona compagnia</p>
             </div>
           </div>
 
@@ -162,7 +162,7 @@
             <div class="tl-dot" aria-hidden="true"></div>
             <div class="tl-content">
                 <h3>Taglio della torta</h3>
-                <p>Un momento dolce da condividere insieme.</p>
+                <p>Un dolce momento da condividere insieme</p>
             </div>
           </div>
       
@@ -171,7 +171,7 @@
             <div class="tl-dot" aria-hidden="true"></div>
             <div class="tl-content">
               <h3>Festa</h3>
-              <p>Musica, balli e festeggiamenti.</p>
+              <p>Musica, balli e festeggiamenti</p>
             </div>
           </div>
         </div>
@@ -201,7 +201,7 @@
           <p class="muted" id="limitNote"></p>
 
           <textarea id="notes" placeholder="Messaggio di auguri…" rows="3"></textarea>
-          <button id="btnSubmit">Conferma</button>
+          <button id="btnSubmit">Invia</button>
           <p id="err2" class="err"></p>
           <p id="ok" class="ok"></p>
         </div>
@@ -258,8 +258,8 @@
           current = data;
           currentCode = code;
 
-          $("famLabel").textContent = data.family_label ? `Invito: ${data.family_label}` : "Invito trovato";
-          $("limitNote").textContent = `Vuoi lasciarci un messaggio? Puoi scriverlo qui sotto.`;
+          $("famLabel").innerHTML = data.family_label ? `Invito: <strong>${data.family_label}</strong>` : "Invito trovato";
+          $("limitNote").textContent = `Vuoi lasciarci un messaggio di auguri? Puoi scriverlo qui sotto!`;
 
           const list = $("list");
           list.innerHTML = "";
@@ -293,7 +293,9 @@
                 </label>
               </div>
 
-              <textarea class="note" rows="2" placeholder="Note per ${escapeHtml(name)} (allergie, intolleranze, info utili)…"></textarea>
+              <div class="allergies"> Segnalare eventuali <strong>allergie</strong> o <strong>esigenze</strong> alimentari</div>
+
+              <textarea class="note" rows="2" placeholder="Allergie/esigenze alimentari per ${escapeHtml(name)}"></textarea>
             `;
 
             list.appendChild(block);
@@ -364,14 +366,20 @@
         }
 
         button{
-          padding:10px 14px;
+          padding:10px 24px;
           border-radius:999px;
           border:0;
           cursor:pointer;
+          background: rgba(107,112,92,.78);
+          border: 1px solid rgba(255,255,255,.18);
+          color: white;
+          font-size: 0.92rem;
         }
 
         textarea{
           width:100%;
+          font-size: 0.92rem;
+          line-height: 1.2;
           margin-top:12px;
           padding:10px 12px;
           border-radius:12px;
@@ -390,6 +398,7 @@
 
         .person-name{
           font-family: "Playfair Display", serif;
+          font-size: large;
           font-weight: 600;
           color: var(--olive);
           margin-bottom: 8px;
@@ -411,9 +420,29 @@
 
         .choice input{ margin-top: 3px; }
 
+        .allergies{
+          margin-top: 8px;
+        }
+
         .note{
           margin-top: 10px;
         }
+
+        #limitNote {
+          margin-top: 20px;
+          margin-bottom: 6px;
+        }
+        
+        #notes {
+          margin-top: 6px;
+        }
+
+        #famLabel strong {
+          font-size: 1.15rem;   /* più grande */
+          font-style: italic;  /* corsivo */
+          font-weight: 600;    /* elegante ma evidente */
+        }
+
       </style>
 
 
@@ -433,7 +462,7 @@
       <h2>⚛ Noi Due ⚛</h2>
       <p>Dopo una lunga attesa di ben 14 anni, eccovi una piccola foto di noi pronti per festeggiare insieme!</p>
       <div class="foto-cerchio">
-        <img src="immagini/greta_manuele.jpg" alt="Greta e Manuele">
+        <img src="immagini/IMG_7646.JPG" alt="Greta e Manuele">
       </div>
     </section>
   </main>
