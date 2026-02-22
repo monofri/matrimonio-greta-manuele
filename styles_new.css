@@ -165,7 +165,6 @@ body::after{
   border-radius: 16px;
   background: rgba(255,255,255,.14);
   border: 1px solid rgba(255,255,255,.34);
-  /*backdrop-filter: blur(10px);*/
 }
 
 .cd-num{
@@ -370,6 +369,7 @@ footer p{
     background: rgba(255,255,255,.14);
     color: #ffffff !important;
     border: 1px solid rgba(255,255,255,.34);
+    backdrop-filter: blur(5px);
   }
   
   /* --- TIMELINE PROGRAMMA --- */
