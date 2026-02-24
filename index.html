@@ -158,7 +158,7 @@
           </div>
 
           <div class="tl-item">
-            <div class="tl-time">21:00</div>
+            <div class="tl-time">21:15</div>
             <div class="tl-dot" aria-hidden="true"></div>
             <div class="tl-content">
                 <h3>Taglio della torta</h3>
@@ -208,7 +208,7 @@
       </div>
 
       <script>
-        const WEBAPP = "https://script.google.com/macros/s/AKfycbyU5Dj4T83Q15QiXGCcO5iCi7DGoXehHSGrFbf_ziQ85HdaiMdWJDbW8eO7oGmfVM8B8Q/exec";
+        const WEBAPP = "https://script.google.com/macros/s/AKfycbx37wGtkZ_dYlU6kbcs5AttKdBTv4u0XTlpghSk_KFURmGmKc_9k649pcoyw3xnOsqbkQ/exec";
 
         let current = null;
         let currentCode = null;
@@ -231,6 +231,33 @@
           return (str || "").replace(/[&<>"']/g, (m) => ({
             "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
           }[m]));
+        }
+        
+        const LABELS = {
+          ALL: "Partecipo alla <strong>cerimonia</strong> e al <strong>ricevimento</strong>",
+          REC: "Partecipo solo al <strong>ricevimento</strong>",
+          CER: "Partecipo solo alla <strong>cerimonia</strong>",
+          CAKE: "Partecipo solo al <strong>taglio della torta</strong> e ai <strong>festeggiamenti</strong>",
+          CER_CAKE: "Partecipo alla <strong>cerimonia</strong>, al <strong>taglio della torta</strong> e ai <strong>festeggiamenti</strong>",
+          NO: "<strong>Purtroppo non ci sarò</strong>"
+        };
+
+        function renderChoicesHtml(personKey, allowedOptions) {
+          // default se il backend non manda allowed_options
+          const opts = (allowedOptions && allowedOptions.length)
+            ? allowedOptions
+            : ["ALL", "REC", "CER", "NO"];
+
+          // assicura NO presente e default selezionato
+          const normalized = Array.from(new Set(opts.map(x => String(x).toUpperCase())));
+          if (!normalized.includes("NO")) normalized.push("NO");
+
+          return normalized.map(code => `
+            <label class="choice">
+              <input type="radio" name="att_${personKey}" value="${code}" ${code === "NO" ? "checked" : ""}>
+              <span>${LABELS[code] || code}</span>
+            </label>
+          `).join("");
         }
 
         function countAttending(listEl){
@@ -275,22 +302,7 @@
               <div class="person-name">${escapeHtml(name)}</div>
 
               <div class="choices" role="radiogroup" aria-label="Partecipazione di ${escapeHtml(name)}">
-                <label class="choice">
-                  <input type="radio" name="att_${safe}" value="ALL">
-                  <span>Partecipo a cerimonia + ricevimento</span>
-                </label>
-                <label class="choice">
-                  <input type="radio" name="att_${safe}" value="REC">
-                  <span>Partecipo solo al ricevimento</span>
-                </label>
-                <label class="choice">
-                  <input type="radio" name="att_${safe}" value="CER">
-                  <span>Partecipo solo alla cerimonia</span>
-                </label>
-                <label class="choice">
-                  <input type="radio" name="att_${safe}" value="NO" checked>
-                  <span>Purtroppo non ci sarò</span>
-                </label>
+                ${renderChoicesHtml(safe, data.allowed_options)}
               </div>
 
               <div class="allergies"> Segnalare eventuali <strong>allergie</strong> o <strong>esigenze</strong> alimentari</div>
